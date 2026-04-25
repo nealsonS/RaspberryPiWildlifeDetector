@@ -1,0 +1,7 @@
+[project]
+name = "raspberrypiwildlifedetector"
+version = "0.1.0"
+description = "Raspberry Pi "
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy", "opencv-python", "picamera2", "ipykernel", "notebook"]
