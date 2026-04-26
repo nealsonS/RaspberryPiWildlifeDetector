@@ -9,6 +9,7 @@ def main():
     RPI_IP = os.environ.get("RASPBERRY_IP")
     RTSP_PORT = os.environ.get("RASPBERRY_RTSP_PORT", 8554)
     RTSP_URL = f"rtsp://{RPI_IP}:{RTSP_PORT}/stream"
+    print(f"Connecting to:\n{RTSP_URL}")
 
     # capture stream
     cap = cv2.VideoCapture(RTSP_URL)
