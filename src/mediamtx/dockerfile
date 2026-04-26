@@ -1,0 +1,7 @@
+FROM bluenviron/mediamtx:1-ffmpeg-rpi AS mediamtx
+FROM ubuntu:24.04
+
+COPY --from=mediamtx /mediamtx /mediamtx
+COPY ./mediamtx.yml /mediamtx.yml
+
+ENTRYPOINT ["/mediamtx"]

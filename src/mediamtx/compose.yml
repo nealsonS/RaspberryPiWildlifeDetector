@@ -1,0 +1,5 @@
+services:
+  mediamtx:
+    build: .
+    ports:
+      - "8554:8554"

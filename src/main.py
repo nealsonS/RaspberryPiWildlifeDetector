@@ -12,50 +12,49 @@ def main():
 
     config = cam.create_video_configuration(
         main={"size": (WIDTH, HEIGHT), "format": "BGR888"},
-        # just for inference
         lores={"size": (WIDTH // 4, HEIGHT // 4), "format": "YUV420"},
     )
     cam.configure(config)
 
-    # ffmpeg subprocess
-    # formatter ruined the structure
-    RTSP_URL = f"rtsp://localhost:{os.environ.get('RASPBERRY_PI_RTSP_PORT', 8554)}/stream"
+    RTSP_URL = (
+        f"rtsp://localhost:{os.environ.get('RASPBERRY_PI_RTSP_PORT', 8554)}/stream"
+    )
+
     ffmpeg_proc = subprocess.Popen(
         [
             "ffmpeg",
-            "-pix_fmt",  # pixel format
-            "brg24",  # for numpy frame support
-            "-s",  # size
+            "-pix_fmt",
+            "bgr24",
+            "-s",
             f"{WIDTH}x{HEIGHT}",
-            "-r",  # framerate
+            "-r",
             str(FPS),
-            "-i",  # input
+            "-i",
             "pipe:0",
-            "-c:v",  # encoding!
+            "-c:v",
             "libx264",
             "-preset",
-            "ultrafast"  # use least CPU,
+            "ultrafast",
             "-tune",
-            "zerolatency",  # disables buffering
+            "zerolatency",
             "-f",
-            "rtsp",  # output format
+            "rtsp",
             RTSP_URL,
         ],
         stdin=subprocess.PIPE,
     )
     print(f"Streaming on:\n{RTSP_URL}")
 
-    while True:
-        try:
+    try:
+        while True:
             frame = cam.capture_array("main")
-            lores = cam.capture_array("lores")
             ffmpeg_proc.stdin.write(frame.tobytes())
-        except KeyboardInterrupt:
-            break
-        finally:
-            cam.stop()
-            ffmpeg_proc.stdin.close()
-            ffmpeg_proc.wait()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        cam.stop()
+        ffmpeg_proc.stdin.close()
+        ffmpeg_proc.wait()
 
 
 if __name__ == "__main__":
