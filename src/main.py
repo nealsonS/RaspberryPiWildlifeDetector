@@ -19,6 +19,7 @@ def main():
 
     # ffmpeg subprocess
     # formatter ruined the structure
+    RTSP_URL = f"rtsp://localhost:{os.environ.get('RASPBERRY_PI_RTSP_PORT', 8554)}/stream"
     ffmpeg_proc = subprocess.Popen(
         [
             "ffmpeg",
@@ -38,10 +39,11 @@ def main():
             "zerolatency",  # disables buffering
             "-f",
             "rtsp",  # output format
-            f"rtsp://localhost:{os.environ.get('RASPBERRY_PI_RTSP_PORT', 8554)}/stream",
+            RTSP_URL,
         ],
         stdin=subprocess.PIPE,
     )
+    print(f"Streaming on:\n{RTSP_URL}")
 
     while True:
         try:
