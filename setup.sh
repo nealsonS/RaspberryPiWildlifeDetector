@@ -3,6 +3,7 @@ set -e
 
 sudo apt-get update
 sudo apt-get install -y libcap-dev
+sudo apt-get install ffmpeg
 
 # Install picamera2 from apt on Raspberry Pi OS; skip silently on other systems
 if sudo apt-get install -y python3-picamera2 --no-install-recommends 2>/dev/null; then
