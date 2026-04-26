@@ -3,7 +3,11 @@ set -e
 
 sudo apt-get update
 sudo apt-get install -y libcap-dev
-sudo apt-get install ffmpeg
+sudo apt-get install -y python3-libcamera
+sudo apt-get install -y ffmpeg
+sudo apt-get install -y libcamera-apps
+sudo apt install python3.13-dev
+
 
 # Install picamera2 from apt on Raspberry Pi OS; skip silently on other systems
 if sudo apt-get install -y python3-picamera2 --no-install-recommends 2>/dev/null; then
@@ -21,7 +25,7 @@ else
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-uv venv --python 3.11
+uv venv --system-site-packages
 source .venv/bin/activate
 
-uv pip install .
+uv pip install -r ./pyproject.toml

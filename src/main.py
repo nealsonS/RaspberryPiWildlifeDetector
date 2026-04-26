@@ -11,9 +11,9 @@ def main():
     cam = Picamera2()
 
     config = cam.create_video_configuration(
-        main={"size": (WIDTH, HEIGHT), format: "BR888"},
+        main={"size": (WIDTH, HEIGHT), "format": "BGR888"},
         # just for inference
-        lores={"size": (WIDTH // 4, HEIGHT // 4), format: "YUV420"},
+        lores={"size": (WIDTH // 4, HEIGHT // 4), "format": "YUV420"},
     )
     cam.configure(config)
 
