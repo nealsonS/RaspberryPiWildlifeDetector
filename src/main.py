@@ -10,19 +10,22 @@ def main():
     WIDTH, HEIGHT, FPS = 1280, 720, 30
     cam = Picamera2()
 
+    # TODO- fix color weird
     config = cam.create_video_configuration(
         main={"size": (WIDTH, HEIGHT), "format": "BGR888"},
         lores={"size": (WIDTH // 4, HEIGHT // 4), "format": "YUV420"},
     )
     cam.configure(config)
+    cam.start()
 
-    RTSP_URL = (
-        f"rtsp://localhost:{os.environ.get('RASPBERRY_PI_RTSP_PORT', 8554)}/stream"
-    )
+    RTSP_PORT = os.environ.get("RASPBERRY_RTSP_PORT", 8554)
+    RTSP_URL = f"rtsp://publisher:changeme@localhost:{RTSP_PORT}/stream"
 
     ffmpeg_proc = subprocess.Popen(
         [
             "ffmpeg",
+            "-f",
+            "rawvideo",
             "-pix_fmt",
             "bgr24",
             "-s",
@@ -37,6 +40,8 @@ def main():
             "ultrafast",
             "-tune",
             "zerolatency",
+            "-rtsp_transport",
+            "tcp",
             "-f",
             "rtsp",
             RTSP_URL,

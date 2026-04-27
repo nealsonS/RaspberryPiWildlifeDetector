@@ -1,5 +1,10 @@
 services:
   mediamtx:
-    build: .
+    image: bluenviron/mediamtx:1-ffmpeg-rpi
     ports:
       - "8554:8554"
+      - "8888:8888"
+      - "9997:9997"
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml
+    restart: unless-stopped

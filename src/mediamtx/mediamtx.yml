@@ -1,32 +1,21 @@
-logLevel: info
-logDestinations: [stdout]
+# logLevel: info
+# logDestinations: [stdout]
 
-# RTSP
-rtsp: yes
-rtspAddress: :8554
-rtspEncryption: no
-# rtspServerKey: server.key
-# rtspServerCert: server.crt
+# rtspAddress: :8554
+# rtspEncryption: true
 
-# HLS — lets any browser view the stream without a special client
-hls: yes
-hlsAddress: :8888
-hlsVariant: lowLatency
-hlsSegmentCount: 3
-hlsSegmentDuration: 500ms
-hlsPartDuration: 100ms
+# hlsAddress: :8888
+# hlsVariant: lowLatency
+# hlsSegmentCount: 3
+# hlsSegmentDuration: 500ms
+# hlsPartDuration: 100ms
 
-# disable unused protocols
-rtmp: no
-webrtc: no
-srt: no
+# # rtmpDisable: yes
+# # webrtcDisable: yes
+# # srtDisable: yes
 
-# API (used to inspect/kick streams)
-api: yes
-apiAddress: :9997
+# apiAddress: :9997
 
-# Authentication — lock publish to a known user, allow open reads on LAN
-authMethod: internal
 authInternalUsers:
   - user: publisher
     pass: changeme
@@ -41,5 +30,3 @@ authInternalUsers:
 
 paths:
   stream:
-    # drop and reconnect a stale publisher automatically
-    overridePublisher: yes
