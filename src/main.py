@@ -53,6 +53,7 @@ def main():
     try:
         while True:
             frame = cam.capture_array("main")
+            frame = frame[:, :, ::-1]
             ffmpeg_proc.stdin.write(frame.tobytes())
     except KeyboardInterrupt:
         pass
